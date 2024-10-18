@@ -13,6 +13,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^3.3",
         "runtime/frankenphp-symfony": "^0.2.0",
+        "stof/doctrine-extensions-bundle": "^1.12",
         "symfony/console": "7.1.*",
         "symfony/dotenv": "7.1.*",
         "symfony/flex": "^2",
@@ -21,9 +22,10 @@
         "symfony/yaml": "7.1.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5",
         "phpstan/phpstan": "^1.9",
         "phpstan/phpstan-phpunit": "^1.3",
+        "phpunit/phpunit": "^9.5",
+        "symfony/maker-bundle": "^1.61",
         "symplify/easy-coding-standard": "^11.1",
         "symplify/phpstan-extensions": "^11.1"
     },
