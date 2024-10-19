@@ -29,7 +29,6 @@ class ImportWolfItemsCommand extends Command
 
     private const LEGENDARY_ITEM_QUALITY = 80;
 
-
     public function __construct(
         private HttpClientInterface $client,
         private LoggerInterface $logger,
@@ -132,7 +131,7 @@ class ImportWolfItemsCommand extends Command
      */
     private function initItemSellIn(): int
     {
-        //TODO: To define a proper logic for "sell_in" value initilization from the requirement
+        // @TODO: To define a proper logic for "sell_in" value initilization from the requirement
         return rand(10, 100);
     }
 
@@ -143,7 +142,7 @@ class ImportWolfItemsCommand extends Command
      */
     private function initItemQuality(string $itemName): int
     {
-        //TODO: To define a proper logic for "quality" value initilization from the requirement
+        // @TODO: To define a proper logic for "quality" value initilization from the requirement
         return $itemName === self::LEGENDARY_ITEM_NAME ? self::LEGENDARY_ITEM_QUALITY : rand(0, 50);
     }
 }

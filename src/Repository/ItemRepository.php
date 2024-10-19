@@ -30,4 +30,12 @@ class ItemRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
+
+
+    public function findAllWithIterable(): iterable
+    {
+        return $this->createQueryBuilder('i')
+            ->getQuery()
+            ->toIterable();
+    }
 }

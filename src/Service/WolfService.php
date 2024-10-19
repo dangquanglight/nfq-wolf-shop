@@ -4,64 +4,48 @@ declare(strict_types=1);
 
 namespace WolfShop\Service;
 
+use Doctrine\ORM\EntityManagerInterface;
+use WolfShop\Entity\Item;
+use WolfShop\Factory\ItemQualityFactory;
+
 final class WolfService
 {
-    /**
-     * @param Item[] $items
-     */
+    private const BATCH_SIZE = 100;
+
     public function __construct(
-        private array $items
+        private EntityManagerInterface $entityManager
     ) {
     }
 
+    /**
+     * Update quality and sell_in for all items in database
+     */
     public function updateQuality(): void
     {
-        foreach ($this->items as $item) {
-            if ($item->name !== 'Apple AirPods' and $item->name !== 'Apple iPad Air') {
-                if ($item->quality > 0) {
-                    if ($item->name !== 'Samsung Galaxy S23') {
-                        $item->quality = $item->quality - 1;
-                    }
-                }
-            } else {
-                if ($item->quality < 50) {
-                    $item->quality = $item->quality + 1;
-                    if ($item->name === 'Apple iPad Air') {
-                        if ($item->sellIn < 11) {
-                            if ($item->quality < 50) {
-                                $item->quality = $item->quality + 1;
-                            }
-                        }
-                        if ($item->sellIn < 6) {
-                            if ($item->quality < 50) {
-                                $item->quality = $item->quality + 1;
-                            }
-                        }
-                    }
-                }
-            }
+        $items = $this->entityManager->getRepository(Item::class)->findAllWithIterable();
 
-            if ($item->name !== 'Samsung Galaxy S23') {
-                $item->sellIn = $item->sellIn - 1;
-            }
+        $i = 0;
+        foreach ($items as $item) {
+            /** @var Item $item */
+            $itemQualityHandler = new ItemQualityFactory($item);
 
-            if ($item->sellIn < 0) {
-                if ($item->name !== 'Apple AirPods') {
-                    if ($item->name !== 'Apple iPad Air') {
-                        if ($item->quality > 0) {
-                            if ($item->name !== 'Samsung Galaxy S23') {
-                                $item->quality = $item->quality - 1;
-                            }
-                        }
-                    } else {
-                        $item->quality = $item->quality - $item->quality;
-                    }
-                } else {
-                    if ($item->quality < 50) {
-                        $item->quality = $item->quality + 1;
-                    }
-                }
+            // Set new quality after calculation
+            $item->setQuality(
+                $itemQualityHandler->calculate()
+            );
+
+            // Decrease sell_in by 1
+            $item->setSellIn(
+                $item->getSellIn() - 1
+            );
+
+            ++$i;
+            if (($i % self::BATCH_SIZE) === 0) {
+                $this->entityManager->flush(); // Executes all updates.
+                $this->entityManager->clear(); // Detaches all objects from Doctrine to free up memory
             }
         }
+
+        $this->entityManager->flush(); // Persist objects that did not make up an entire batch
     }
 }
