@@ -12,7 +12,6 @@ interface ItemQualityServiceInterface
 
     public const MIN_QUALITY = 0;
 
-
     public function __construct(Item $item);
 
     /**

@@ -18,9 +18,6 @@ class ItemRepository extends ServiceEntityRepository
         parent::__construct($registry, Item::class);
     }
 
-    /**
-     * findOneByName function
-     */
     public function findOneByName(string $value): ?Item
     {
         return $this->createQueryBuilder('i')
@@ -30,7 +27,6 @@ class ItemRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-
 
     public function findAllWithIterable(): iterable
     {

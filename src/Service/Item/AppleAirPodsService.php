@@ -11,7 +11,6 @@ class AppleAirPodsService implements ItemQualityServiceInterface
 {
     private Item $item;
 
-
     public function __construct(Item $item)
     {
         $this->item = $item;

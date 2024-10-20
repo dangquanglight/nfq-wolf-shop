@@ -1,5 +1,5 @@
 when@dev:
-    maker:
-        root_namespace: 'WolfShop'
-        generate_final_classes: true
-        generate_final_entities: false
+  maker:
+    root_namespace: "WolfShop"
+    generate_final_classes: true
+    generate_final_entities: false

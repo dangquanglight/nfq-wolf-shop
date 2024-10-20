@@ -16,7 +16,6 @@ class ItemQualityFactory
 {
     protected ItemQualityServiceInterface $handler;
 
-
     public function __construct(Item $item)
     {
         $this->handler = match ($item->getName()) {
