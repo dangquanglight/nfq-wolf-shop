@@ -27,10 +27,10 @@ class AppleIpadAirService implements ItemQualityServiceInterface
         $currentSellIn = $this->item->getSellIn();
 
         if ($currentQuality < ItemQualityServiceInterface::MAX_QUALITY) {
-            if ($currentSellIn < 11) {
-                $newQuality = $newQuality + 2;
-            } elseif ($currentSellIn < 6) {
+            if ($currentSellIn < 6) {
                 $newQuality = $newQuality + 3;
+            } elseif ($currentSellIn < 11) {
+                $newQuality = $newQuality + 2;
             } else {
                 $newQuality = $currentQuality + 1;
             }

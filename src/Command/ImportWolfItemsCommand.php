@@ -14,6 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use WolfShop\Entity\Item;
+use WolfShop\Repository\ItemRepository;
 
 #[AsCommand(
     name: 'wolf:import-items',
@@ -91,6 +92,9 @@ class ImportWolfItemsCommand extends Command
      */
     private function handleChunkedItems(array $chunkedItems, OutputInterface $output, ProgressBar $progressBar): void
     {
+        /** @var ItemRepository $itemRepository */
+        $itemRepository = $this->entityManager->getRepository(Item::class);
+
         foreach ($chunkedItems as $data) {
             $itemName = $data['name'] ?? null;
             if (empty($itemName)) {
@@ -99,7 +103,7 @@ class ImportWolfItemsCommand extends Command
             }
 
             /** @var Item $existingItem */
-            $existingItem = $this->entityManager->getRepository(Item::class)->findOneByName($itemName);
+            $existingItem = $itemRepository->findOneByName($itemName);
             if (! empty($existingItem)) {
                 // In case Item already exists by name, update Quality for it
                 $existingItem->setQuality($existingItem->getQuality() + 1);

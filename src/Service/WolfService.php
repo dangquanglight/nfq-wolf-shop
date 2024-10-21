@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace WolfShop\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityManager;
 use WolfShop\Entity\Item;
 use WolfShop\Factory\ItemQualityFactory;
 
@@ -13,7 +13,7 @@ final class WolfService
     private const BATCH_SIZE = 100;
 
     public function __construct(
-        private EntityManagerInterface $entityManager
+        private EntityManager $entityManager,
     ) {
     }
 

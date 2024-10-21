@@ -23,7 +23,6 @@ class ApiKeyAuthenticator extends AbstractAuthenticator
 
     private $params;
 
-
     public function __construct(ContainerBagInterface $params)
     {
         $this->params = $params;

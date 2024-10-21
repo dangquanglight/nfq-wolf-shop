@@ -19,4 +19,10 @@ phpstan.neon
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache
+/build/coverage
 ###< phpunit/phpunit ###
+
+###> friendsofphp/php-cs-fixer ###
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
+###< friendsofphp/php-cs-fixer ###

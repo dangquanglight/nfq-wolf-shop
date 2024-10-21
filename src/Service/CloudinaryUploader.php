@@ -12,7 +12,6 @@ class CloudinaryUploader
 {
     private $params;
 
-
     public function __construct(ContainerBagInterface $params)
     {
         $this->params = $params;

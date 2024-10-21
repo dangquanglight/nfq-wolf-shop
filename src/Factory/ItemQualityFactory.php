@@ -33,4 +33,10 @@ class ItemQualityFactory
     {
         return $this->handler->calculate();
     }
+
+
+    public function getHandler(): ItemQualityServiceInterface
+    {
+        return $this->handler;
+    }
 }
