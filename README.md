@@ -1,69 +1,149 @@
-# Coding assessment - PHP Version
+# Coding Assessment Project
 
-## Dear Candidate
-Welcome to our take-home coding assessment. 
-We trust you'll find this assessment both challenging and rewarding, and we look forward to the opportunity to discuss your accomplishments further in the next stage.
+## Dear evaluators
+Welcome to my mini-project for the coding assessment ✨ \
+Please, be my guest and have a cup of tea 🍵 with a delecious cake(s) 🍪 of your choice before diving into the following project information
 
-## Project features
-We have a system in place that updates our inventory for us.
+## Project Techstack
+This project levarages latest version of the following techstack
+- `PHP` programming language - version 8.3.12
+- `Symfony` framework - version 7.1.5
+- `PostgreSQL` database management system - version 16.4
 
-- All items have a `SellIn` value which denotes the number of days we have to sell the items
-- All items have a `Quality` value which denotes how valuable the item is
-- At the end of each day our system lowers both values for every item
+## Development Environment
+The project also leverages the power of containerized application by providing a [Docker](https://www.docker.com/)-based installer and runtime for the Symfony web framework, with [FrankenPHP](https://frankenphp.dev/) and [Caddy](https://caddyserver.com/) inside which is based on this [Symfony Docker](https://github.com/dunglas/symfony-docker) project
 
-Pretty simple, right? Well this is where it gets interesting:
+### Features
+- Production, development environments and CI skeleton ready
+- Blazing-fast performance thanks to the worker mode of FrankenPHP (automatically enabled in prod mode)
+- Installation of extra Docker Compose services with Symfony Flex
+- Automatic HTTPS (in dev and prod)
+- Native XDebug integration
 
-- Once the sell by date has passed, Quality degrades twice as fast
-- The Quality of an item is never negative
-- **"Apple AirPods"** actually increases in Quality the older it gets
-- The Quality of an item is never more than 50
-- **"Samsung Galaxy S23"**, being a legendary item, never has to be sold or decreases in Quality
-- **"Apple iPad Air"**, like **"Apple AirPods"**, increases in Quality as its SellIn value approaches;
-- `Quality` increases by `2` when there are `10` days or less and by `3` when there are `5` days or less but
-- `Quality` drops to `0` after the concert
+### Getting Started
+- If not already done, install [Docker Compose](https://docs.docker.com/compose/install/) (v2.10+)
+- Run `docker compose up -d` to build images and start up containers for the project
+- Open https://localhost in your favorite web browser and accept the auto-generated TLS certificate
+- Run `docker compose down --remove-orphans` to stop the Docker containers in case of needed
 
-We have recently signed a supplier of conjured items. This requires an update to our system:
+💥 For more details on features usage, please check out this official [Symfony Docker](https://github.com/dunglas/symfony-docker) project which is hand-crafted by [Kévin Dunglas](https://github.com/dunglas) (Founder of [@coopTilleuls](https://github.com/coopTilleuls) / Creator of [@api-platform](https://github.com/api-platform), Mercure.rocks, FrankenPHP and Vulcain.rocks / [@symfony](https://github.com/symfony) Core Team)
 
-- **"Xiaomi Redmi Note 13"** items degrade in `Quality` twice as fast as normal items
+## Application Installation & Configuration
+Once the development environment starts up and running, run the following commands inside the `php` container
 
-Feel free to make any changes to the `UpdateQuality` method and add any new code as long as everything still works correctly. 
-However, do not alter the Item class or Items property as those belong to the goblin in the corner who will insta-rage and one-shot you as he doesn't believe in shared code ownership (you can make the `UpdateQuality` method and `Items` property static if you like, we'll cover for you).
+```shell
+# Attach shell to the php container
+docker exec -it {php-container-name-OR-container-ID} bash
 
-Just for clarification, an item can never have its `Quality` increase above `50`, however **"Samsung Galaxy S23"** is a legendary item and as such its `Quality` is `80` & it never alters.
+# The following commands will be run inside the docker container
+# Install required PHP packages and its dependencies
+composer install
 
-## Folders
+# Run migrations
+php bin/console doctrine:migrations:migrate
+```
 
-- `src` - contains the two classes:
-    - `Item.php` - this class should not be changed
-    - `WolfService.php` - this class needs to be refactored, and the new feature added
+### Configuration
+- Create a copy of this [.env](.env) file and name it `.env.local` for development environment usage
 
-## 🎯 Goal
-- Refactor the `WolfService` class to make any changes to the `UpdateQuality` method and add any new code as long as everything still works correctly.
-- Store the `Items` in a storage engine of your choice. (e.g. Database, In-memory)  
-- Create a console command to import `Item` to our inventory  from API `https://api.restful-api.dev/objects` (https://restful-api.dev/). In case Item already exists by `name` in the storage, update `Quality` for it.
-- Provide another API endpoint to upload `imgUrl` via [https://cloudinary.com](https://cloudinary.com/documentation/php_image_and_video_upload) (credentials will be sent in email's attachment) for the `Item`. API should be authentication with basic username/password login. The credentials can be hardcoded.
-- Unit testing.
+```shell
+###> symfony/framework-bundle ###
+APP_ENV=dev
+APP_SECRET=a-secret-string
+###< symfony/framework-bundle ###
 
-## 💡 Hints before you start working on it
-* Keep KISS, DRY, YAGNI, SOLID principles in mind.
-* Your code should be tested
+###> cloudinary ###
+CLOUDINARY_CLOUD_NAME=your-cloud-name
+CLOUDINARY_API_KEY=your-api-key
+CLOUDINARY_API_SECRET=your-api-secret-key
+CLOUDINARY_UPLOAD_FOLDER=your-destination-file-upload-folder
+###< cloudinary ###
 
-## How to submit your work
-- You can do with Laravel or Symfony framework.
-- Start by creating a new Git repository on a platform like GitHub, GitLab, or Bitbucket (all the code is your IP)
-- Create README.md for the project with the setup instruction
-- The server must be able to run and tested based on the README instructions
-- Upload the Postman workspace
-- Share the public git repository URL
+###> for testing purpose only ###
+DUMMY_API_TOKEN=your-api-token
+###< for testing purpose only ###
+```
 
-### Bonus:
-- Dockerize the application
-- CI/CD skeleton
-- Server scalability
+## Directory Structure
+The structure follow the default [Symfony directory structure](https://symfony.com/doc/current/best_practices.html#use-the-default-directory-structure). It's flat, self-explanatory and not coupled to Symfony (💡Find out [more](https://symfony.com/doc/current/page_creation.html#checking-out-the-project-structure))
 
-## Recommendations
-- Read the features and the bonus features carefully before you start coding
-- Committing changes at appropriate intervals in Git
-- Leave TODO in the code if you couldn't finish a solution, you have chance to explain it during the interview
+```json
+wolf-shop/
+├─ bin/
+│  └─ console
+├─ config/
+│  ├─ packages/
+│  ├─ routes/
+│  └─ services.yaml
+├─ migrations/
+├─ public/
+│  └─ index.php
+├─ src/
+│  ├─ Command/
+│  ├─ Controller/
+│  ├─ Entity/
+│  ├─ Enum/
+│  ├─ Factory/
+│  ├─ Interface/
+│  ├─ Repository/
+│  ├─ Security/
+│  └─ Service/
+│     └─ WolfService.php // The refactored file here
+│  └─ Item.php // The original file from the coding assessment source base
+│  └─ Kernel.php
+├─ tests/
+├─ var/
+│  ├─ cache/
+│  └─ log/
+└─ vendor/
+```
 
-**Happy coding**!
+## 🎯 How would this project satisfy the goals of the coding assessment?
+🔳 Refactor the `WolfService` class to make any changes to the `UpdateQuality` method and add any new code as long as everything still works correctly.
+> 🔑 The given class has been moved to the **[src/Service](src/Service/)** directory with an update for proper class auto-loading. \
+🔑 The business logic is broken down into smaller, dedicated service under **[src/Service/Item](src/Service/Item/)** directory, to keep each logic for each item type (identify by its name) as simple and efficient as possible (`KISS` principle) \
+🔑 Each item type service (e.g. [AppleAirPodsService](src/Service/Item/AppleAirPodsService.php) or [SamsungGalaxyS23Service](src/Service/Item/SamsungGalaxyS23Service.php)) has an ability to manage its own logic as its single and only responsibility (`Single responsibility principle` - SOLID) \
+🔑 Each item type service has to be implemented from an interface ([ItemQualityServiceInterface](src/Interface/ItemQualityServiceInterface.php)) as a contract to ensure every single service follows a same standard (`Open/close principle` - SOLID) \
+🔑 In order to initiate a proper service handler for each item type, the [Factory design pattern](https://en.wikipedia.org/wiki/Factory_method_pattern) is applied to sort it out. Find out more at [src/Factory/ItemQualityFactory.php](src/Factory/ItemQualityFactory.php) \
+🔑 To keep all the item type definition clean and tidy in one place, an [Enumeration](https://www.php.net/manual/en/language.types.enumerations.php) class is created under [src/Enum/WolfItemNamesEnum.php](src/Enum/WolfItemNamesEnum.php) (`DRY` principle) \
+❕There is no place consume the `WolfService` as per the requirement but as it is a standalone service we can inject it into any place as needed, e.g. a scheduled job to run it periodically by using [Symfony Scheduler](https://symfony.com/doc/current/scheduler.html) component
+
+🔳 Store the `Items` in a storage engine of your choice. (e.g. Database, In-memory)
+> 🔑 There is an `items` table created in the database to store the data backed by PostgreSQL database management system ❔ [Why PostgreSQL?](https://www.postgresql.org/about/)
+
+🔳 Create a console command to import `Item` to our inventory  from API `https://api.restful-api.dev/objects` (https://restful-api.dev/). In case Item already exists by `name` in the storage, update `Quality` for it.
+> 🔑 A console command is created under [src/Command/ImportWolfItemsCommand.php](src/Command/ImportWolfItemsCommand.php) \
+🔑 The command is already considered a performance perspective with an ability to handle a large dataset by breaking the data into smaller chunk with memory free up every chunk \
+🔑 Let's try it out by running this command against the php container: `php bin/console wolf:import-items` \
+❕There is missing requirements to define a way to initial/retrival value for `sellIn` and `quality` attributes, a randomize value is adapted as a temporary solution
+
+🔳 Provide another API endpoint to upload `imgUrl` via [https://cloudinary.com](https://cloudinary.com/documentation/php_image_and_video_upload) (credentials will be sent in email's attachment) for the `Item`. API should be authentication with basic username/password login. The credentials can be hardcoded.
+> 🔑 A restful API is created under this endpoint `/api/v1/item/upload-image` with `POST` method \
+🔑 The API implements the [API key authentication](https://en.wikipedia.org/wiki/API_key) mechanism by passing a header key `X-API-KEY` along with a token which is configured in the ENV variable `DUMMY_API_TOKEN` \
+🔑 The project also applying the `OpenAPI (Swagger)` to generate API documentation and provides a sandbox to interactively experiment with the API by supporting from this **[NelmioApiDocBundle](https://symfony.com/bundles/NelmioApiDocBundle/current/index.html)** package \
+🌟 Let's visit the Swagger API documentation UI via this URL https://localhost/api/doc \
+![alt text](docs/swagger-ui.png)
+🌟 Please find the API document as the following
+![alt text](docs/api-request-body.png)
+![alt text](docs/api-responses.png)
+Sample API request in CLI via `CURL`
+
+```shell
+curl -X 'POST' \                                                                                                    
+  'https://localhost/api/v1/item/upload-image' \
+  -H 'accept: application/json' \
+  -H 'X-API-KEY: configured-api-token' \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'item_name=your item name' \
+  -F 'item_image=your image path'
+```
+
+🔳 Unit testing.
+> 🔑 Unit test has been applied with code coverage ~80% lines of code
+![alt text](docs/unit-test-coverage.png)
+🔑 The unit tests can be executed by running this command against the php container `composer tests`
+![alt text](docs/unit-test-result.png)
+
+## 🎇 Final Thought
+### Thanks for coming along down here with your patient and curiosity 🙋
+### Have a good time and enjoy the project exploring 🤘
