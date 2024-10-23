@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 class CloudinaryUploader
 {
-    private $params;
+    private ContainerBagInterface $params;
 
     public function __construct(ContainerBagInterface $params)
     {

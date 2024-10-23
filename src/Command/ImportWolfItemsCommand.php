@@ -104,7 +104,7 @@ class ImportWolfItemsCommand extends Command
 
             /** @var Item $existingItem */
             $existingItem = $itemRepository->findOneByName($itemName);
-            if (! empty($existingItem)) {
+            if ($existingItem !== null) {
                 // In case Item already exists by name, update Quality for it
                 $existingItem->setQuality($existingItem->getQuality() + 1);
                 $this->entityManager->persist($existingItem);

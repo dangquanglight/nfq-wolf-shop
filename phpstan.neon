@@ -6,11 +6,11 @@ parameters:
     paths:
         - src
         - tests
-        - fixtures
 
     # max is the highest level
     level: max
+    ignoreErrors:
+        - identifier: missingType.iterableValue
+        - identifier: missingType.generics
 
-    checkGenericClassInNonGenericObjectType: false
-
-    checkMissingIterableValueType: false
+    treatPhpDocTypesAsCertain: false

@@ -21,7 +21,7 @@ class ApiKeyAuthenticator extends AbstractAuthenticator
 {
     private const API_KEY_HEADER_NAME = 'X-API-KEY';
 
-    private $params;
+    private ContainerBagInterface $params;
 
     public function __construct(ContainerBagInterface $params)
     {

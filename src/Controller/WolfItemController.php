@@ -112,14 +112,14 @@ class WolfItemController extends AbstractController
         $itemName = $request->get('item_name');
         $uploadedFile = $request->files->get('item_image');
 
-        $validationResult = $this->basicValidation($request, $itemName, $uploadedFile);
+        $validationResult = $this->basicValidation($request, (string) $itemName, $uploadedFile);
         if (! empty($validationResult)) {
             return $validationResult;
         }
 
         /** @var Item $item */
         $item = $this->entityManager->getRepository(Item::class)->findOneByName($itemName);
-        if (empty($item)) {
+        if ($item === null) {
             return $this->constructResponse(
                 'Invalid item name',
                 Response::HTTP_BAD_REQUEST
@@ -146,7 +146,7 @@ class WolfItemController extends AbstractController
         }
 
         // Store the received image URL to the database accordingly
-        $item->setImgUrl($imageUrl);
+        $item->setImgUrl((string) $imageUrl);
         $this->entityManager->flush();
         $this->entityManager->clear();
 
@@ -184,7 +184,7 @@ class WolfItemController extends AbstractController
         if ($validationResult->has(0)) {
             // Just get first error message as response message
             return $this->constructResponse(
-                $validationResult->get(0)->getMessage(),
+                (string) $validationResult->get(0)->getMessage(),
                 Response::HTTP_BAD_REQUEST
             );
         }

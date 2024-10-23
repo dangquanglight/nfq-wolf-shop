@@ -67,7 +67,7 @@ DUMMY_API_TOKEN=your-api-token
 ## Directory Structure
 The structure follow the default [Symfony directory structure](https://symfony.com/doc/current/best_practices.html#use-the-default-directory-structure). It's flat, self-explanatory and not coupled to Symfony (💡Find out [more](https://symfony.com/doc/current/page_creation.html#checking-out-the-project-structure))
 
-```json
+```text
 wolf-shop/
 ├─ bin/
 │  └─ console
@@ -129,20 +129,31 @@ wolf-shop/
 Sample API request in CLI via `CURL`
 
 ```shell
-curl -X 'POST' \                                                                                                    
+curl -X 'POST' \
   'https://localhost/api/v1/item/upload-image' \
   -H 'accept: application/json' \
   -H 'X-API-KEY: configured-api-token' \
   -H 'Content-Type: multipart/form-data' \
-  -F 'item_name=your item name' \
-  -F 'item_image=your image path'
+  -F 'item_name=Apple iPad Air' \
+  -F 'item_image=@test.jpg;type=image/jpeg'
 ```
+> 💣 API response
+![alt text](docs/api-request-result.png)
+> 💥 The `imgUrl` has been updated in the database for the given item name (**Apple iPad Air**)
+![alt text](docs/api-request-db-result.png)
 
 🔳 Unit testing.
 > 🔑 Unit test has been applied with code coverage ~80% lines of code
 ![alt text](docs/unit-test-coverage.png)
 🔑 The unit tests can be executed by running this command against the php container `composer tests`
 ![alt text](docs/unit-test-result.png)
+
+🔳 CI skeleton
+> 🔑 Github workflow CI is setup under [.github/workflows/ci.yml](.github/workflows/ci.yml)
+
+🔳 Dockerize the application & Server scalability
+> 🔑 Backed by the [Symfony Docker](https://github.com/dunglas/symfony-docker) project with its features for containerized application, production ready with blazing-fast performance from the worker mode of FrankenPHP. \
+✨ It is ready to use with any Kubernetes support cloud platform like [AWS Amazon Elastic Kubernetes Service](https://aws.amazon.com/eks/) (EKS) for fully containerized infrastructure orchestration and management
 
 ## 🎇 Final Thought
 ### Thanks for coming along down here with your patient and curiosity 🙋

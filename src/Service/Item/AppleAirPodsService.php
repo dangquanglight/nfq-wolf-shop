@@ -23,7 +23,7 @@ class AppleAirPodsService implements ItemQualityServiceInterface
      */
     public function calculate(): int
     {
-        $newQuality = $currentQuality = $this->item->getQuality();
+        $newQuality = $currentQuality = (int) $this->item->getQuality();
         if ($currentQuality < ItemQualityServiceInterface::MAX_QUALITY) {
             $newQuality = $currentQuality + 1;
         }
