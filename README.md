@@ -1,5 +1,7 @@
 # Coding Assessment Project
 
+![CI](https://github.com/github/docs/actions/workflows/ci.yml/badge.svg)
+
 ## Dear evaluators
 Welcome to my mini-project for the coding assessment ✨ \
 Please, be my guest and have a cup of tea 🍵 with a delecious cake(s) 🍪 of your choice before diving into the following project information
