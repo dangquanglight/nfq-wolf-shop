@@ -152,6 +152,19 @@ curl -X 'POST' \
 🔳 Unit testing.
 > 🔑 Unit test has been applied with code coverage of ~80% lines of code
 ![alt text](docs/unit-test-coverage.png)
+🔑 Run the following commands against the PHP container before excuting the unit tests
+
+```shell
+# Create a test database
+php bin/console -e test doctrine:database:create
+
+# Run migrations for the test DB
+php bin/console -e test doctrine:migrations:migrate
+
+# Load fixtures
+php bin/console -e test doctrine:fixtures:load
+```
+
 🔑 The unit tests can be executed by running this command against the PHP container `composer tests`
 ![alt text](docs/unit-test-result.png)
 
