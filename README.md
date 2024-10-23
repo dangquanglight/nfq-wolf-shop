@@ -1,6 +1,6 @@
 # Coding Assessment Project
 
-![CI](https://github.com/github/docs/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/dangquanglight/wolf-shop/actions/workflows/ci.yml/badge.svg)
 
 ## Dear evaluators
 Welcome to my mini-project for the coding assessment ✨ \
