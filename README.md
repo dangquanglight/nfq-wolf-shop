@@ -37,10 +37,6 @@ Once the development environment starts up and running, run the following comman
 # Attach shell to the php container
 docker exec -it {php-container-name-OR-container-ID} bash
 
-# The following commands will be run inside the docker container
-# Install required PHP packages and their dependencies
-composer install
-
 # Run migrations
 php bin/console doctrine:migrations:migrate
 ```
